@@ -1,0 +1,13 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Generated pipeline outputs are reproducible local artifacts.
+artifacts/
+
+# Downloaded FMA data and extracted metadata are reproducible local artifacts.
+data/fma/audio/
+data/fma/metadata/
+data/fma/fma_metadata.zip
