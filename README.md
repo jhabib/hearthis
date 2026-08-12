@@ -1,5 +1,26 @@
 # Hear This
 
+## All-In-One-compatible structural input
+
+The production preprocessing path reproduces All-In-One's original Madmom
+input using Torch. It creates 100-frame-per-second, 81-band log-frequency
+spectrograms for bass, drums, other, and vocals. Madmom remains isolated in a
+Python 3.11 reference environment for parity checks.
+
+```sh
+uv venv --python 3.11 .venv-madmom
+uv pip install --python .venv-madmom/bin/python \
+  -r requirements-madmom-reference.txt
+.venv-madmom/bin/python scripts/export_madmom_reference.py \
+  artifacts/audio/fma-116320/stems reference.npy
+.venv/bin/python scripts/build_allin1_spectrogram.py \
+  artifacts/audio/fma-116320/stems compatible.npy
+```
+
+On FMA track `116320`, both paths produced tensors shaped
+`4 x 17,842 x 81`. Their mean absolute difference was `9.32e-9`, and their
+maximum absolute difference was `1.13e-6`.
+
 Initial implementation of a passage-level song-understanding pipeline for the
 Hear This probabilistic taste model.
 

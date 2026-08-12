@@ -1,0 +1,7 @@
+# Reference-only environment for validating All-In-One preprocessing.
+numpy==1.23.5
+scipy==1.10.1
+Cython==0.29.37
+setuptools==69.5.1
+wheel==0.48.0
+madmom @ git+https://github.com/CPJKU/madmom.git@27f032e8947204902c675e5e341a3faf5dc86dae
