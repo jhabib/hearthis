@@ -90,8 +90,26 @@ and source separation:
 Generated audio representations live under `artifacts/` and are ignored by
 Git because they can be reproduced from the source corpus and pipeline.
 
+## Structural-analysis baseline
+
+The first structure backend uses Librosa onset, beat, chroma, and agglomerative
+segmentation algorithms. It emits beat and estimated downbeat timelines,
+contiguous section intervals, repeated-section similarity labels, sample ranges,
+and frame ranges for every mixture spectrogram. Run it with:
+
+```sh
+.venv/bin/pip install -r requirements-structure.txt
+.venv/bin/python scripts/analyze_structure.py \
+  artifacts/audio/fma-116320/manifest.json
+```
+
+For FMA track `116320`, the baseline estimated 129.20 BPM, 349 beats, 87
+downbeats, and nine contiguous sections aligned to waveform samples and both
+spectrogram resolutions. These labels are unsupervised similarity groups, not
+functional verse or chorus claims.
+
 ## Next implementation step
 
-Add hierarchical song-structure analysis. The next stage will infer beats,
-downbeats, structural boundaries, section labels, and shorter passages, then
-align those intervals with the mixture, stems, and spectrogram frame axes.
+Evaluate structural boundaries against annotations, add shorter beat-aligned
+passages, and integrate a learned backend for functional labels such as intro,
+verse, chorus, bridge, breakdown, and outro.
