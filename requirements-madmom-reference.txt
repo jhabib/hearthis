@@ -5,3 +5,6 @@ Cython==0.29.37
 setuptools==69.5.1
 wheel==0.48.0
 madmom @ git+https://github.com/CPJKU/madmom.git@27f032e8947204902c675e5e341a3faf5dc86dae
+imageio-ffmpeg==0.6.0
+allin1==1.1.0
+natten==0.21.7

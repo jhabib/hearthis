@@ -129,8 +129,28 @@ downbeats, and nine contiguous sections aligned to waveform samples and both
 spectrogram resolutions. These labels are unsupervised similarity groups, not
 functional verse or chorus claims.
 
+## Learned functional structure
+
+The learned backend runs an open All-In-One Harmonix checkpoint and preserves
+frame-level beat, downbeat, boundary, and functional-label probabilities. Its
+manifest records the top three labels for every section, boundary confidence,
+waveform samples, and spectrogram frames. A portable Torch adapter implements
+the checkpoint's legacy NATTEN operators and records the instrument-attention
+padding workaround in provenance.
+
+```sh
+.venv-madmom/bin/python scripts/analyze_learned_structure.py \
+  artifacts/audio/fma-116320 \
+  --input artifacts/audio/fma-116320/allin1/torch-compatible-unfold.npy \
+  --device mps
+```
+
+For FMA track `116320`, one Harmonix fold estimated 128 BPM, 359 beats, 90
+downbeats, and eight musical sections labeled intro, verse, chorus,
+instrumental, solo, and outro. The learned timeline produced 25 aligned
+passages and passed cross-artifact validation.
+
 ## Next implementation step
 
-Evaluate structural boundaries against annotations, add shorter beat-aligned
-passages, and integrate a learned backend for functional labels such as intro,
-verse, chorus, bridge, breakdown, and outro.
+Evaluate learned boundaries and labels against human annotations, add a visual
+timeline overlay, and process the starter catalog to measure failure modes.
