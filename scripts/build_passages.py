@@ -14,11 +14,19 @@ def main() -> None:
     parser.add_argument("recording_dir", type=Path)
     parser.add_argument("--beats", type=int, default=8)
     parser.add_argument("--minimum-seconds", type=float, default=4.0)
+    parser.add_argument(
+        "--structure-manifest",
+        type=Path,
+        help="structure hypothesis to use, including a human-corrected manifest",
+    )
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     recording_dir = args.recording_dir.expanduser().resolve()
+    structure_manifest = args.structure_manifest or recording_dir / "structure" / "manifest.json"
+    output = args.output or recording_dir / "passages" / "manifest.json"
     result = build_passages(
-        recording_dir / "structure" / "manifest.json",
-        recording_dir / "passages" / "manifest.json",
+        structure_manifest,
+        output,
         beats_per_passage=args.beats,
         minimum_seconds=args.minimum_seconds,
         spectrogram_manifests=sorted((recording_dir / "spectrograms").glob("*.json")),
