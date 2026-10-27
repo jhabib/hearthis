@@ -17,9 +17,13 @@ dependencies = [
 dev = ["pytest==8.4.1"]
 fma = ["remotezip==0.12.3"]
 learned-structure = ["torch>=2.1"]
+analysis = ["torch>=2.1", "demucs==4.0.1", "librosa==0.11.0; python_version < '3.12'", "librosa==1.0.0; python_version >= '3.12'", "scikit-learn==1.7.2; python_version < '3.12'", "scikit-learn==1.9.0; python_version >= '3.12'"]
+neural = ["torch>=2.1"]
+serve = ["psycopg[binary]>=3.2,<4"]
 
 [project.scripts]
 hearthis = "hearthis.cli:main"
+hearthis-service = "hearthis.service:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

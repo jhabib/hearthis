@@ -37,8 +37,9 @@ class SeparationConfig:
             self.required_stems
         ):
             raise ValueError("required_stems must be unique and nonempty")
-        if self.maximum_normalized_reconstruction_error <= 0:
-            raise ValueError("maximum reconstruction error must be positive")
+        if (not math.isfinite(self.maximum_normalized_reconstruction_error)
+                or self.maximum_normalized_reconstruction_error <= 0):
+            raise ValueError("maximum reconstruction error must be finite and positive")
 
 
 
@@ -48,6 +49,9 @@ def _to_float32(samples: np.ndarray) -> np.ndarray:
     if not np.issubdtype(samples.dtype, np.integer):
         raise TypeError(f"unsupported waveform dtype: {samples.dtype}")
     info = np.iinfo(samples.dtype)
+    if info.min == 0:
+        midpoint = float(info.max + 1) / 2
+        return (samples.astype(np.float32) - midpoint) / midpoint
     scale = float(max(abs(info.min), info.max))
     return samples.astype(np.float32) / scale
 
@@ -56,9 +60,34 @@ def _audio_geometry(path: Path) -> tuple[int, np.ndarray]:
     sample_rate, samples = wavfile.read(path)
     if samples.ndim == 1:
         samples = samples[:, None]
-    if samples.ndim != 2 or samples.shape[0] == 0:
+    if samples.ndim != 2 or samples.shape[0] == 0 or samples.shape[1] not in (1, 2):
         raise ValueError(f"invalid stem waveform shape for {path}: {samples.shape}")
+    if sample_rate <= 0 or not np.isfinite(samples).all():
+        raise ValueError(f"waveform must have a positive sample rate and finite samples: {path}")
     return int(sample_rate), _to_float32(samples)
+
+
+def _reconstruction_metrics(
+    mixture: np.ndarray, reconstruction: np.ndarray, threshold: float
+) -> dict[str, Any]:
+    residual = mixture - reconstruction
+    mixture_rms = float(np.sqrt(np.mean(np.square(mixture, dtype=np.float64))))
+    residual_rms = float(np.sqrt(np.mean(np.square(residual, dtype=np.float64))))
+    normalized_error = residual_rms / max(mixture_rms, np.finfo(float).eps)
+    snr_db = (
+        math.inf
+        if residual_rms == 0
+        else 20 * math.log10(max(mixture_rms, np.finfo(float).eps) / residual_rms)
+    )
+    return {
+        "mixture_rms": mixture_rms,
+        "residual_rms": residual_rms,
+        "normalized_reconstruction_error": normalized_error,
+        "reconstruction_snr_db": snr_db,
+        "maximum_absolute_residual": float(np.max(np.abs(residual))),
+        "threshold": threshold,
+        "within_threshold": bool(math.isfinite(normalized_error) and normalized_error <= threshold),
+    }
 
 
 def _atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -86,6 +115,9 @@ def separate_sources(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     mixture_rate, mixture = _audio_geometry(canonical_wave)
+    # The backend writes into this directory. Invalidate its prior manifest
+    # before a rerun can replace any stems, including runs that fail early.
+    (output_dir / "manifest.json").unlink(missing_ok=True)
     produced = dict(backend.separate(canonical_wave, output_dir))
     missing = set(config.required_stems) - produced.keys()
     unexpected = produced.keys() - set(config.required_stems)
@@ -120,26 +152,14 @@ def separate_sources(
             "peak_absolute_amplitude": float(np.max(np.abs(stem_audio))),
         }
 
-    residual = mixture - reconstruction
-    mixture_rms = float(np.sqrt(np.mean(np.square(mixture, dtype=np.float64))))
-    residual_rms = float(np.sqrt(np.mean(np.square(residual, dtype=np.float64))))
-    normalized_error = residual_rms / max(mixture_rms, np.finfo(float).eps)
-    snr_db = (
-        math.inf
-        if residual_rms == 0
-        else 20 * math.log10(max(mixture_rms, np.finfo(float).eps) / residual_rms)
+    metrics = _reconstruction_metrics(
+        mixture, reconstruction, config.maximum_normalized_reconstruction_error
     )
-    metrics = {
-        "mixture_rms": mixture_rms,
-        "residual_rms": residual_rms,
-        "normalized_reconstruction_error": normalized_error,
-        "reconstruction_snr_db": snr_db,
-        "maximum_absolute_residual": float(np.max(np.abs(residual))),
-        "threshold": config.maximum_normalized_reconstruction_error,
-        "within_threshold": bool(
-            normalized_error <= config.maximum_normalized_reconstruction_error
-        ),
-    }
+    if not metrics["within_threshold"]:
+        raise RuntimeError(
+            "stem reconstruction exceeds threshold: "
+            f"{metrics['normalized_reconstruction_error']:.6g} > {metrics['threshold']:.6g}"
+        )
 
     manifest = {
         "schema": SEPARATION_SCHEMA,

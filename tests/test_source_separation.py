@@ -9,7 +9,8 @@ import numpy as np
 import pytest
 
 from hearthis.audio.ingest import ingest_audio
-from hearthis.audio.separation import REQUIRED_STEMS, separate_sources
+from hearthis.audio.separation import REQUIRED_STEMS, SeparationConfig, separate_sources
+from scipy.io import wavfile
 
 
 def _write_sine(path: Path, sample_rate: int = 44_100) -> None:
@@ -88,3 +89,43 @@ def test_separation_rejects_incomplete_backend(tmp_path: Path) -> None:
             ingestion_path.parent / "stems",
             IncompleteFakeBackend(),
         )
+
+
+class InvalidAudioBackend:
+    identity = {"name": "invalid-audio-test", "version": "1"}
+
+    def __init__(self, value: float):
+        self.value = value
+
+    def separate(self, canonical_wave: Path, output_dir: Path):
+        rate, audio = wavfile.read(canonical_wave)
+        result = {}
+        for name in REQUIRED_STEMS:
+            path = output_dir / f"{name}.wav"
+            wavfile.write(path, rate, np.full(audio.shape, self.value, dtype=np.float32))
+            result[name] = path
+        return result
+
+
+@pytest.mark.parametrize("value,exception,message", [
+    (0.0, RuntimeError, "reconstruction exceeds threshold"),
+    (float("nan"), ValueError, "finite samples"),
+    (float("inf"), ValueError, "finite samples"),
+])
+def test_failed_rerun_removes_success_manifest(tmp_path: Path, value, exception, message) -> None:
+    source = tmp_path / "source.wav"
+    _write_sine(source)
+    ingestion_path = ingest_audio(source, tmp_path / "artifacts")
+    canonical = Path(json.loads(ingestion_path.read_text())["canonical_audio"]["path"])
+    output = ingestion_path.parent / "stems"
+    manifest = separate_sources(canonical, output, ExactFakeBackend())
+    assert manifest.exists()
+    with pytest.raises(exception, match=message):
+        separate_sources(canonical, output, InvalidAudioBackend(value))
+    assert not manifest.exists()
+
+
+@pytest.mark.parametrize("threshold", [float("nan"), float("inf"), 0, -1])
+def test_invalid_reconstruction_threshold_is_rejected(threshold: float) -> None:
+    with pytest.raises(ValueError, match="finite and positive"):
+        SeparationConfig(maximum_normalized_reconstruction_error=threshold).validate()

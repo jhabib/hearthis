@@ -1,0 +1,123 @@
+{
+  "recordings": [
+    {
+      "recording_dir": "artifacts/audio/fma-116320",
+      "listening_correction": "artifacts/audio/fma-116320/listening-gemini/correction.json",
+      "metadata": {
+        "artist": "Verslo Rizikos Rezervas",
+        "title": "Sveikinimai gerbejams (feat. Dmitri Shostakovich Symphony No. 7)"
+      }
+    },
+    {
+      "recording_dir": "artifacts/end-to-end/fma-demo/audio/fma-117057",
+      "listening_correction": "artifacts/end-to-end/fma-demo/listening/fma-117057/correction.json",
+      "metadata": {
+        "artist": "Jaan Patterson",
+        "title": "Nulla in Mundo Pax Sincera (Vivaldi)"
+      }
+    }
+  ],
+  "listening": {
+    "provider": "meta-ape",
+    "model": "gemini-2.5-pro",
+    "timeout": 240
+  },
+  "learn_shared_descriptions": true,
+  "listener": {
+    "listener_id": "synthetic-demonstration-listener",
+    "provenance": "synthetic demonstration profiles; not observed human taste",
+    "variance": 0.05,
+    "centers": [
+      [
+        0.6,
+        0.12,
+        0.2,
+        0.55,
+        0.05,
+        0.55,
+        0.65,
+        0.4,
+        0.55
+      ],
+      [
+        0.4,
+        0.06,
+        0.05,
+        0.8,
+        0.02,
+        0.35,
+        0.25,
+        0.75,
+        0.35
+      ]
+    ]
+  },
+  "intent": {
+    "request": "Moderately energetic music with a prominent vocal presence; keep the intensity comfortable.",
+    "risk": 0.5,
+    "beta": 4,
+    "horizon_seconds": 300
+  },
+  "feedback": [
+    {
+      "kind": "pairwise",
+      "song_id": "fma-116320",
+      "other_song_id": "fma-117057",
+      "value": 1,
+      "exposed": true,
+      "propensity": 0.5,
+      "confidence": 1,
+      "step": 1,
+      "provenance": "synthetic preference observation, not a listener measurement"
+    },
+    {
+      "kind": "behavior",
+      "song_id": "fma-116320",
+      "value": 1,
+      "exposed": true,
+      "propensity": 0.5,
+      "confidence": 1,
+      "step": 1,
+      "provenance": "synthetic save observation, not a listener measurement"
+    },
+    {
+      "kind": "critique",
+      "song_id": "fma-116320",
+      "text": "The long spoken vocal section feels too intense; I would prefer it calmer.",
+      "exposed": true,
+      "propensity": 0.5,
+      "step": 1,
+      "provenance": "synthetic critique used to exercise language and joint inference; not a listener report"
+    }
+  ],
+  "sampling": {
+    "seed": 20261027,
+    "draws": 128,
+    "particles": 2048,
+    "ideal_count": 3,
+    "explain_count": 2,
+    "fit_iterations": 100
+  },
+  "language": {
+    "provider": "meta-ape",
+    "model": "gemini-2.5-pro",
+    "timeout": 180
+  },
+  "waveform": {
+    "epochs": 60,
+    "samples": 1024,
+    "hidden": 64,
+    "latent_dimension": 8,
+    "max_clips": 96,
+    "batch_size": 32
+  },
+  "joint": {
+    "iterations": 60,
+    "draws": 8,
+    "rank": 6,
+    "batch_size": 24
+  },
+  "generation": {
+    "duration_seconds": 4
+  }
+}

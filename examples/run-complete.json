@@ -1,0 +1,92 @@
+{
+  "broad_features": true,
+  "edits": [
+    {
+      "intervals": [
+        {
+          "end_seconds": 35,
+          "start_seconds": 30,
+          "strength": 0.5,
+          "targets": {
+            "rms_level": 0.4
+          }
+        }
+      ],
+      "song_id": "fma-116320"
+    }
+  ],
+  "evaluation": {
+    "sampling": {
+      "chains": 4,
+      "draws": 64,
+      "sweeps": 80
+    }
+  },
+  "feedback": [
+    {
+      "event_id": "synthetic-full-pair-1",
+      "exposed": true,
+      "kind": "pairwise",
+      "other_song_id": "fma-117057",
+      "propensity": 0.5,
+      "provenance": "synthetic implementation exercise",
+      "song_id": "fma-116320",
+      "value": 1
+    }
+  ],
+  "generation": {
+    "duration_seconds": 30
+  },
+  "intent": {
+    "horizon_seconds": 300,
+    "risk": 0.5,
+    "targets": {
+      "arousal": 0.6,
+      "vocal_share": 0.6
+    }
+  },
+  "joint": {
+    "batch_size": 16,
+    "draws": 4,
+    "iterations": 30,
+    "rank": 4
+  },
+  "listener": {
+    "listener_id": "synthetic-full-model",
+    "provenance": "synthetic cold-start profile; not measured human taste"
+  },
+  "recordings": [
+    {
+      "listening_correction": "artifacts/audio/fma-116320/listening-gemini/correction.json",
+      "metadata": {
+        "artist": "Verslo Rizikos Rezervas",
+        "title": "Sveikinimai gerbejams"
+      },
+      "recording_dir": "artifacts/audio/fma-116320"
+    },
+    {
+      "listening_correction": "artifacts/end-to-end/fma-demo/listening/fma-117057/correction.json",
+      "metadata": {
+        "artist": "Jaan Patterson",
+        "title": "Nulla in Mundo Pax Sincera"
+      },
+      "recording_dir": "artifacts/end-to-end/fma-demo/audio/fma-117057"
+    }
+  ],
+  "sampling": {
+    "draws": 32,
+    "explain_count": 1,
+    "ideal_count": 2,
+    "particles": 256,
+    "seed": 20261027
+  },
+  "waveform": {
+    "autoregressive": true,
+    "epochs": 12,
+    "hidden": 64,
+    "latent_dimension": 8,
+    "max_clips": 96,
+    "sample_rate_hz": 24000,
+    "samples": 1024
+  }
+}

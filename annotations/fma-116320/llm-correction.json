@@ -1,0 +1,73 @@
+{
+  "annotation_source": "llm",
+  "annotator": "codex-llm-reviewer",
+  "base_manifest_sha256": "970a3496d722895a341932303efd0a9a6db718f453fb9924333f8a7b52cb10ca",
+  "created_at": "2026-10-27T17:25:24.196280+00:00",
+  "provenance": {
+    "audio_listened": false,
+    "evidence_path": "llm-evidence.json",
+    "evidence_sha256": "9f3e0c97cd993c46613972e926bbe428a45577cec09f875550a288c282e76f8f",
+    "independent_reference": false,
+    "method": "LLM draft in a music-reviewer role, using learned section posteriors and separated-stem RMS summaries; no audio listening.",
+    "model": "Codex LLM (exact model revision unavailable)"
+  },
+  "schema": "hearthis.structure-correction/v1",
+  "sections": [
+    {
+      "confidence": 0.65,
+      "end_seconds": 27.95,
+      "label": "intro",
+      "notes": "Tentative opening section. The model favors intro (0.935). Vocal-stem RMS is lower than in the following passages; retain the opening hypothesis pending listening.",
+      "start_seconds": 0.0
+    },
+    {
+      "confidence": 0.6,
+      "end_seconds": 57.73,
+      "label": "verse",
+      "notes": "Tentative verse. The model favors verse (0.834); vocal-stem RMS rises from 0.045695 to 0.118130 while drum energy stays strong. Lyrics and verse function remain unverified.",
+      "start_seconds": 27.95
+    },
+    {
+      "confidence": 0.6,
+      "end_seconds": 87.73,
+      "label": "verse",
+      "notes": "Tentative repeated verse. Vocal and drum energies resemble the preceding passage and the model favors verse (0.853). Keep the proposed 57.73-second division for review; these summaries cannot confirm a separate verse.",
+      "start_seconds": 57.73
+    },
+    {
+      "confidence": 0.35,
+      "end_seconds": 115.32,
+      "label": "vocal_section",
+      "notes": "Retain a broad vocal-section hypothesis. The model's chorus score is only 0.429 and drum RMS falls to 0.040607. A recurring refrain cannot be established from energy summaries, so defer the chorus claim.",
+      "start_seconds": 87.73
+    },
+    {
+      "confidence": 0.55,
+      "end_seconds": 130.28,
+      "label": "instrumental",
+      "notes": "Tentative instrumental passage. Vocal-stem RMS drops to 0.004018 while drums and accompaniment remain active. Residual vocals or bleed remain possible.",
+      "start_seconds": 115.32
+    },
+    {
+      "confidence": 0.5,
+      "end_seconds": 148.89,
+      "label": "instrumental",
+      "notes": "Use the broader instrumental label. Vocal-stem RMS remains low (0.003525), but no listening evidence identifies a soloist. The model's solo score is only 0.314; retain the proposed subdivision as uncertain.",
+      "start_seconds": 130.28
+    },
+    {
+      "confidence": 0.35,
+      "end_seconds": 169.6,
+      "label": "outro",
+      "notes": "Tentative closing passage. The model weakly favors outro (0.342), with solo also plausible (0.266). Retain outro for review; this position and the energy summary cannot establish closing function.",
+      "start_seconds": 148.89
+    },
+    {
+      "confidence": 0.45,
+      "end_seconds": 178.41632653061225,
+      "label": "outro",
+      "notes": "Tentative final tail. Drum RMS falls to 0.002478 and accompaniment RMS to 0.022427 relative to the preceding passage. Retain the final boundary at 169.6 seconds provisionally; a separate outro section is unverified.",
+      "start_seconds": 169.6
+    }
+  ]
+}

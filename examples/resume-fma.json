@@ -1,0 +1,14 @@
+{
+  "catalog_path": "artifacts/end-to-end/fma-final-v5/taste/catalog.json",
+  "listener_path": "artifacts/end-to-end/fma-final-v5/taste/listener-posterior.json",
+  "joint_posterior_path": "artifacts/end-to-end/fma-final-v5/taste/joint-posterior.json",
+  "intent": {"targets": {"arousal": 0.5}, "horizon_seconds": 300, "risk": 0.5},
+  "feedback": [{
+    "kind": "pairwise", "song_id": "fma-116320", "other_song_id": "fma-117057",
+    "value": 1, "exposed": true, "propensity": 0.5, "step": 2,
+    "provenance": "synthetic new observation for replay verification; not human preference data"
+  }],
+  "joint": {"iterations": 12, "draws": 16},
+  "generation": {"duration_seconds": 2},
+  "sampling": {"seed": 20261028, "draws": 64, "particles": 512, "ideal_count": 2, "explain_count": 1}
+}

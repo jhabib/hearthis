@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Supplied song observations",
+  "type": "object",
+  "required": ["schema", "song_id", "provenance"],
+  "properties": {
+    "schema": {"const": "hearthis.song-observations/v1"},
+    "song_id": {"type": "string", "minLength": 1},
+    "provenance": {"type": "string", "minLength": 1},
+    "metadata_tags": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "lyrics": {
+      "type": "object", "required": ["text"],
+      "properties": {
+        "text": {"type": "string"},
+        "segments": {
+          "type": "array", "items": {
+            "type": "object", "required": ["start_seconds", "end_seconds", "text"],
+            "properties": {"start_seconds": {"type": "number", "minimum": 0}, "end_seconds": {"type": "number", "exclusiveMinimum": 0}, "text": {"type": "string"}}
+          }
+        }
+      }
+    },
+    "semantic_reports": {
+      "type": "array", "items": {
+        "type": "object", "required": ["feature", "region_id", "value", "noise_sd", "source"],
+        "properties": {
+          "feature": {"type": "string"}, "region_id": {"type": "string"},
+          "value": {"type": "number", "minimum": 0, "maximum": 1},
+          "noise_sd": {"type": "number", "exclusiveMinimum": 0},
+          "source": {"enum": ["audio_llm", "human", "metadata", "lyrics", "synthetic"]}
+        }
+      }
+    }
+  }
+}

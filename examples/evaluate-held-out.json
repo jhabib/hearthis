@@ -1,0 +1,8 @@
+{
+  "waveform_model_path": "artifacts/end-to-end/fma-all-stages/taste/joint-waveform/manifest.json",
+  "waveform_test_catalog_path": "artifacts/end-to-end/fma-held-out/taste/catalog.json",
+  "waveform_test_options": {
+    "batch_size": 32,
+    "draws": 8
+  }
+}

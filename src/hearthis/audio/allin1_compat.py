@@ -9,6 +9,8 @@ import torch
 import torch.nn.functional as torch_functional
 from scipy.io import wavfile
 
+from .separation import _to_float32
+
 SAMPLE_RATE = 44_100
 FRAME_SIZE = 2_048
 HOP_SIZE = 441
@@ -43,13 +45,15 @@ def _mono_float(path: Path) -> np.ndarray:
     sample_rate, audio = wavfile.read(path)
     if sample_rate != SAMPLE_RATE:
         raise ValueError(f"expected {SAMPLE_RATE} Hz audio, received {sample_rate} Hz")
+    audio = _to_float32(audio)
     if audio.ndim == 2:
-        audio = audio.astype(np.float32).mean(axis=1)
+        if audio.shape[1] not in (1, 2):
+            raise ValueError("expected one or two audio channels")
+        audio = audio.mean(axis=1)
     elif audio.ndim != 1:
         raise ValueError(f"expected mono or stereo audio, received shape {audio.shape}")
-    if np.issubdtype(audio.dtype, np.integer):
-        scale = float(max(abs(np.iinfo(audio.dtype).min), np.iinfo(audio.dtype).max))
-        audio = audio.astype(np.float32) / scale
+    if not audio.size or not np.isfinite(audio).all():
+        raise ValueError("audio must contain nonempty, finite samples")
     return np.asarray(audio, dtype=np.float32)
 
 

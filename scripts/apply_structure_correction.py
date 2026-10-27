@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply a human section annotation to an existing structure manifest."""
+"""Apply a human or LLM section annotation to a structure manifest."""
 
 from __future__ import annotations
 

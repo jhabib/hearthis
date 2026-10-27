@@ -4,6 +4,8 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+.env
+deploy/runtime-secrets.json
 
 # Generated pipeline outputs are reproducible local artifacts.
 artifacts/

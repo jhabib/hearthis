@@ -1,0 +1,115 @@
+{
+  "canonical_wave_sha256": "43469377f4a8880099c947b7e54794f0104abd714cfd2b2a079f572a92c81017",
+  "endpoint": "meta-ape/ape.model.raw",
+  "endpoint_adjustment": {
+    "canonical_end_seconds": 240.065306122449,
+    "reason": "provider endpoint rounded to milliseconds",
+    "reported_end_seconds": 240.065
+  },
+  "execution": "live_provider",
+  "input_audio": {
+    "channels": 1,
+    "duration_seconds": 240.065306122449,
+    "path": "../../artifacts/end-to-end/fma-demo/listening/fma-117057/input.wav",
+    "sample_rate_hz": 16000,
+    "sha256": "13affd7a05142445b1fe825392b2d235710b704a2735fb784080029f0090111d"
+  },
+  "method": "direct waveform-input LLM listening review; blind to learned structure",
+  "model": "gemini-2.5-pro",
+  "prompt": "Listen to the supplied complete music recording (240.065306122 seconds). You are an AI music reviewer. Analyze the audio directly, without claiming human authorship. Return ONLY a JSON object with sections, an array of contiguous positive intervals covering exactly 0 through the recording duration. Each section must contain start_seconds, end_seconds, label, confidence in [0,1], and notes describing audible evidence and uncertainty. Use broad instrumental or vocal_section labels when a functional verse/chorus/solo label cannot be supported by listening. Do not invent lyrics. Optionally add descriptor_modes to a section, an array of {weight, descriptors: {arousal, intimacy, tension}, confidence}. Each number must be in [0,1], mode weights must sum to 1, arousal means perceived activation, intimacy means perceived closeness, and tension means perceived unresolved musical pressure. These are subjective AI estimates, not measured listener reports. Also return audio_observations, a nonempty string describing audible instruments, voice, temporal changes and limitations. If you cannot access or analyze the audio, return an error object and no sections. No draft annotations or classifier outputs have been supplied.",
+  "provenance": "LLM listening judgment; not a human or calibrated population observation",
+  "provider_response_id": "cuTgavmjCYab9LsP377D0Q8",
+  "request_sha256": "e2d7014ca9a4dd512973f7ca195bc26cd32d97feb2a871b2f639737a3d0d9aba",
+  "requested_model": "gemini-2.5-pro",
+  "review": {
+    "audio_observations": "The recording presents a powerful, densely orchestrated piece that sounds like a modern classical or film score composition. The primary instrumentation is a full symphony orchestra, with strings (violins, violas, cellos, basses), brass (trumpets, horns, trombones, tuba), and likely woodwinds, although the latter are often blended within the massive texture. There are no vocals or electronic instruments audible. The piece is characterized by its relentless energy, complex rhythmic structures, and use of dissonance to create extreme tension. It employs techniques like fast ostinatos in the low strings, frantic arpeggios and runs in the upper strings, and powerful, heroic-sounding brass fanfares and stabs. The dynamic range is very wide, moving between chaotic, fortissimo passages and brief moments of sparser, more contemplative textures. The overall mood is one of urgency, conflict, and epic scale. The recording quality is clear, allowing the listener to discern many, but not all, of the individual layers within the complex arrangement. The composition is through-composed, with thematic fragments recurring and developing throughout, rather than following a simple verse-chorus structure.",
+    "descriptor_modes": [
+      {
+        "confidence": 0.85,
+        "descriptors": {
+          "arousal": 0.9,
+          "intimacy": 0.1,
+          "tension": 0.95
+        },
+        "weight": 0.75
+      },
+      {
+        "confidence": 0.7,
+        "descriptors": {
+          "arousal": 0.6,
+          "intimacy": 0.2,
+          "tension": 0.7
+        },
+        "weight": 0.25
+      }
+    ],
+    "sections": [
+      {
+        "confidence": 0.85,
+        "end_seconds": 21.0,
+        "label": "introduction",
+        "notes": "The piece begins with a dramatic, chaotic, and densely layered orchestral sound. Low strings or brass establish a frantic, repeating motif, while high-pitched, dissonant string textures swirl above. There's a sense of urgency and immense scale, almost like a film score for an epic, frantic scene. The texture is thick and complex from the very start.",
+        "start_seconds": 0
+      },
+      {
+        "confidence": 0.9,
+        "end_seconds": 47.96,
+        "label": "instrumental_section",
+        "notes": "A new thematic section begins, characterized by a more defined, though still agitated, rhythmic pulse. A descending melodic fragment in the strings is repeated and developed. The low-end ostinato continues, providing a powerful, driving foundation. The overall feeling is one of pursuit or intense struggle. The orchestration remains dense, with brass and string layers interacting.",
+        "start_seconds": 21.0
+      },
+      {
+        "confidence": 0.9,
+        "end_seconds": 102.26,
+        "label": "instrumental_section",
+        "notes": "The music transitions into a new passage where a powerful, driving rhythm is established by insistent string motifs and brass hits. Melodic fragments are passed between different sections of the orchestra. A recurring, descending 3-note figure becomes a key element. The intensity builds and subsides in waves, creating a dynamic and restless atmosphere. A prominent brass section enters around 1:21, adding to the heroic yet tense quality.",
+        "start_seconds": 47.96
+      },
+      {
+        "confidence": 0.85,
+        "end_seconds": 120.4,
+        "label": "instrumental_section",
+        "notes": "This section features a shift in texture. The focus moves to a more lyrical, but still somewhat anxious, string melody over a sustained harmonic bed. The frantic energy of the previous sections is temporarily replaced by a sense of questioning or anticipation. The orchestration thins out slightly, allowing the melodic lines to be heard more clearly before building again towards the end of the phrase.",
+        "start_seconds": 102.26
+      },
+      {
+        "confidence": 0.9,
+        "end_seconds": 161.4,
+        "label": "instrumental_section",
+        "notes": "The frantic energy returns with a vengeance. Rapid-fire string passages, powerful brass stabs, and a relentless rhythmic drive characterize this section. It feels like a recapitulation or development of the earlier agitated themes, but with even greater intensity. The music is highly cinematic and propulsive, suggesting a climactic action sequence. The complexity and layering of the orchestra are at a peak here.",
+        "start_seconds": 120.4
+      },
+      {
+        "confidence": 0.9,
+        "end_seconds": 204.41,
+        "label": "instrumental_section",
+        "notes": "The intensity continues, with motifs being passed between different instrumental groups. A prominent theme is carried by the brass, while the strings provide a whirlwind of fast-moving counter-melodies and rhythmic figures. The harmonic language is dissonant and full of tension. The piece feels like it's constantly building towards a resolution that never quite arrives, maintaining a high level of suspense.",
+        "start_seconds": 161.4
+      },
+      {
+        "confidence": 0.8,
+        "end_seconds": 240.065306122449,
+        "label": "outro",
+        "notes": "The music begins to deconstruct. The tempo seems to slow, and the dense orchestration thins out. Fragments of earlier themes are heard, but they sound more isolated and disjointed. The piece winds down with sustained, unresolved string chords and a final, questioning melodic fragment, ending on a note of ambiguity and suspense rather than a definitive conclusion.",
+        "start_seconds": 204.41
+      }
+    ]
+  },
+  "usage": {
+    "cache_read_input_tokens": null,
+    "completion_tokens": 1391,
+    "completion_tokens_details": {
+      "reasoning_tokens": 47,
+      "text_tokens": 1344
+    },
+    "prompt_tokens": 6267,
+    "prompt_tokens_details": {
+      "audio_tokens": 6025,
+      "cached_tokens": null,
+      "image_tokens": null,
+      "text_tokens": 242,
+      "video_tokens": null
+    },
+    "total_tokens": 7658
+  }
+}

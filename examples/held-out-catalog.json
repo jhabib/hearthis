@@ -1,0 +1,15 @@
+{
+  "broad_features": true,
+  "sampling": {
+    "draws": 32,
+    "explain_count": 0,
+    "ideal_count": 1,
+    "particles": 128
+  },
+  "sources": [
+    {
+      "path": "data/fma/audio/020092.mp3",
+      "recording_id": "fma-020092"
+    }
+  ]
+}

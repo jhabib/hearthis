@@ -132,10 +132,26 @@ This stage establishes the observable song representation used by later perceptu
 5. Add hierarchical passage generation and human correction support.
 6. Run the complete pipeline on the evaluation catalog and document failure modes.
 
-## Deferred work
+## Editing, evaluation and serving
 
-- Listener taste inference and recommendation.
-- Language grounding from critiques to passages.
-- Perceptual and psychological response modeling.
-- Personalized music editing and generation.
-- Large-scale distributed processing and production serving infrastructure.
+Localized decoder edits preserve source channels, rate, duration and all samples
+outside requested intervals. Full runs can include validated editing and
+evaluation manifests. Held-out preference, annotation, waveform and sampler
+evaluation commands are implemented.
+
+PostgreSQL-backed HTTP serving and independent workers support leases, retries,
+idempotency, authentication, immutable state versions, health checks and verified
+artifact retrieval. Docker Compose and Kubernetes resources are supplied.
+See `DEPLOYMENT.md` for startup, storage and deployment configuration.
+
+## Implemented model stages
+
+The pipeline now implements listener inference and recommendation, multimodal
+region response profiles, LLM listening and semantic grounding, hierarchical
+dynamic tastes, joint variational inference, ideal feature sampling, conditional
+neural waveform generation, playlists, explanations, and saved-state replay.
+The complete runnable configuration is `examples/run-complete.json`.
+
+Independent human preference calibration, annotation accuracy, and generated
+musical quality remain evaluation work. See `MODEL_IMPLEMENTATION.md` for
+exact kernels, approximation boundaries, and verification commands.

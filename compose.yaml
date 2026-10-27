@@ -1,0 +1,66 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: hearthis
+      POSTGRES_USER: hearthis
+      POSTGRES_PASSWORD: ${HEARTHIS_DATABASE_PASSWORD:?set HEARTHIS_DATABASE_PASSWORD}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U hearthis -d hearthis]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  api:
+    build: .
+    image: hearthis:local
+    command: [python, -m, hearthis.service, api]
+    environment: &runtime
+      HEARTHIS_DATABASE_URL: postgresql://hearthis:${HEARTHIS_DATABASE_PASSWORD}@database/hearthis
+      HEARTHIS_API_TOKEN: ${HEARTHIS_API_TOKEN:?set HEARTHIS_API_TOKEN}
+      HEARTHIS_INPUT_ROOTS: /data:/catalog
+      HEARTHIS_JOB_ROOT: /data/jobs
+      HEARTHIS_AUDIO_API_KEY: ${HEARTHIS_AUDIO_API_KEY:-}
+      HEARTHIS_PROVIDER_ENDPOINT: ${HEARTHIS_PROVIDER_ENDPOINT:-}
+      HEARTHIS_DEVICE: cpu
+      HEARTHIS_JOB_TIMEOUT_SECONDS: ${HEARTHIS_JOB_TIMEOUT_SECONDS:-7200}
+    volumes: &artifacts
+      - artifacts:/data
+      - ${HEARTHIS_CATALOG_DIRECTORY:-./artifacts/container-catalog-v3}:/catalog:ro
+    ports:
+      - 127.0.0.1:${HEARTHIS_PORT:-8080}:8080
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8080/readyz', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+    stop_grace_period: 15s
+  worker:
+    image: hearthis:local
+    command: [python, -m, hearthis.service, worker]
+    environment: *runtime
+    volumes: *artifacts
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+    stop_grace_period: 20s
+    healthcheck:
+      test: [CMD, python, -c, "import pathlib,time; assert time.time()-pathlib.Path('/tmp/hearthis-worker-health').stat().st_mtime < 30"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+volumes:
+  database:
+  artifacts:

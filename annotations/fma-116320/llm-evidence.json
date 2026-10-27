@@ -1,0 +1,260 @@
+{
+  "canonical_wave_sha256": "ceaca0c041791708660210d5c0ba303cfc91d4051e24e51d40deebea704d89fe",
+  "limitations": [
+    "The LLM did not listen to audio.",
+    "Separator vocal energy can include bleed and does not establish lyrics or vocal identity.",
+    "Learned posteriors are inputs to these annotations; agreement is not independent accuracy.",
+    "All boundaries are inherited from the learned model and remain provisional.",
+    "Annotation confidence is a qualitative LLM judgment, not a calibrated probability."
+  ],
+  "method": "RMS per separated stem over each learned section, plus stored learned label and boundary probabilities.",
+  "recording_id": "fma-116320",
+  "sections": [
+    {
+      "boundary_confidence": 0.09804917126893997,
+      "confidence": 0.9346995949745178,
+      "end_seconds": 27.95,
+      "index": 0,
+      "label": "intro",
+      "label_hypotheses": [
+        {
+          "label": "intro",
+          "probability": 0.9346995949745178
+        },
+        {
+          "label": "instrumental",
+          "probability": 0.025024913251399994
+        },
+        {
+          "label": "chorus",
+          "probability": 0.022943558171391487
+        }
+      ],
+      "start_seconds": 0.0,
+      "stem_rms": {
+        "bass": 0.002691,
+        "drums": 0.097796,
+        "other": 0.07732,
+        "vocals": 0.045695
+      }
+    },
+    {
+      "boundary_confidence": 0.31836652755737305,
+      "confidence": 0.8342511653900146,
+      "end_seconds": 57.73,
+      "index": 1,
+      "label": "verse",
+      "label_hypotheses": [
+        {
+          "label": "verse",
+          "probability": 0.8342511653900146
+        },
+        {
+          "label": "chorus",
+          "probability": 0.13891777396202087
+        },
+        {
+          "label": "intro",
+          "probability": 0.021631808951497078
+        }
+      ],
+      "start_seconds": 27.95,
+      "stem_rms": {
+        "bass": 0.015115,
+        "drums": 0.108303,
+        "other": 0.063131,
+        "vocals": 0.11813
+      }
+    },
+    {
+      "boundary_confidence": 0.2856440246105194,
+      "confidence": 0.8525519967079163,
+      "end_seconds": 87.73,
+      "index": 2,
+      "label": "verse",
+      "label_hypotheses": [
+        {
+          "label": "verse",
+          "probability": 0.8525519967079163
+        },
+        {
+          "label": "chorus",
+          "probability": 0.13773061335086823
+        },
+        {
+          "label": "bridge",
+          "probability": 0.005182933993637562
+        }
+      ],
+      "start_seconds": 57.73,
+      "stem_rms": {
+        "bass": 0.017217,
+        "drums": 0.108667,
+        "other": 0.074627,
+        "vocals": 0.124129
+      }
+    },
+    {
+      "boundary_confidence": 0.13735157251358032,
+      "confidence": 0.4285798966884613,
+      "end_seconds": 115.32,
+      "index": 3,
+      "label": "chorus",
+      "label_hypotheses": [
+        {
+          "label": "chorus",
+          "probability": 0.4285798966884613
+        },
+        {
+          "label": "verse",
+          "probability": 0.19108103215694427
+        },
+        {
+          "label": "break",
+          "probability": 0.1683037132024765
+        }
+      ],
+      "start_seconds": 87.73,
+      "stem_rms": {
+        "bass": 0.01188,
+        "drums": 0.040607,
+        "other": 0.095977,
+        "vocals": 0.103033
+      }
+    },
+    {
+      "boundary_confidence": 0.2337569147348404,
+      "confidence": 0.33483320474624634,
+      "end_seconds": 130.28,
+      "index": 4,
+      "label": "instrumental",
+      "label_hypotheses": [
+        {
+          "label": "instrumental",
+          "probability": 0.33483320474624634
+        },
+        {
+          "label": "solo",
+          "probability": 0.16837745904922485
+        },
+        {
+          "label": "bridge",
+          "probability": 0.15462423861026764
+        }
+      ],
+      "start_seconds": 115.32,
+      "stem_rms": {
+        "bass": 0.021274,
+        "drums": 0.111941,
+        "other": 0.0936,
+        "vocals": 0.004018
+      }
+    },
+    {
+      "boundary_confidence": 0.11706215143203735,
+      "confidence": 0.31446224451065063,
+      "end_seconds": 148.89,
+      "index": 5,
+      "label": "solo",
+      "label_hypotheses": [
+        {
+          "label": "solo",
+          "probability": 0.31446224451065063
+        },
+        {
+          "label": "instrumental",
+          "probability": 0.18616615235805511
+        },
+        {
+          "label": "break",
+          "probability": 0.1540633738040924
+        }
+      ],
+      "start_seconds": 130.28,
+      "stem_rms": {
+        "bass": 0.020829,
+        "drums": 0.10156,
+        "other": 0.099315,
+        "vocals": 0.003525
+      }
+    },
+    {
+      "boundary_confidence": 0.21697069704532623,
+      "confidence": 0.342471718788147,
+      "end_seconds": 169.6,
+      "index": 6,
+      "label": "outro",
+      "label_hypotheses": [
+        {
+          "label": "outro",
+          "probability": 0.342471718788147
+        },
+        {
+          "label": "solo",
+          "probability": 0.2663992643356323
+        },
+        {
+          "label": "instrumental",
+          "probability": 0.11734030395746231
+        }
+      ],
+      "start_seconds": 148.89,
+      "stem_rms": {
+        "bass": 0.017545,
+        "drums": 0.087721,
+        "other": 0.097442,
+        "vocals": 0.049274
+      }
+    },
+    {
+      "boundary_confidence": 0.08509466052055359,
+      "confidence": 0.5434545874595642,
+      "end_seconds": 178.41632653061225,
+      "index": 7,
+      "label": "outro",
+      "label_hypotheses": [
+        {
+          "label": "outro",
+          "probability": 0.5434545874595642
+        },
+        {
+          "label": "end",
+          "probability": 0.19801725447177887
+        },
+        {
+          "label": "chorus",
+          "probability": 0.09649505466222763
+        }
+      ],
+      "start_seconds": 169.6,
+      "stem_rms": {
+        "bass": 0.002369,
+        "drums": 0.002478,
+        "other": 0.022427,
+        "vocals": 0.010781
+      }
+    }
+  ],
+  "separation_manifest": {
+    "path": "artifacts/audio/fma-116320/stems/manifest.json",
+    "sha256": "1a980491debe91d648829c20d7c083486aa7d52cbb2f321808e25d389a751ecb"
+  },
+  "stems": {
+    "bass": {
+      "sha256": "36a2bfe6eefb86832b0cb3772322c60d01d65a0a554cc0b9dd489d819018e26e"
+    },
+    "drums": {
+      "sha256": "a2a4e1d19d81088c479faee32528ee28b9b70ce053d3b05f534fcae926e5f4b5"
+    },
+    "other": {
+      "sha256": "7e68f32e324e806bf46fd51871c955c14a6e2281bfc8fd75e0edaa31f461f7f9"
+    },
+    "vocals": {
+      "sha256": "07ef180078cbdec19e7f1a5f0c4e292beca78ca6efdd3cd50136767726011fd5"
+    }
+  },
+  "structure_manifest": {
+    "path": "artifacts/audio/fma-116320/structure-learned/manifest.json",
+    "sha256": "970a3496d722895a341932303efd0a9a6db718f453fb9924333f8a7b52cb10ca"
+  }
+}

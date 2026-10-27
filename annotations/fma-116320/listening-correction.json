@@ -1,0 +1,52 @@
+{
+  "annotation_source": "llm",
+  "annotator": "audio-llm-reviewer",
+  "base_manifest_sha256": "e21eb0f0f174c91667a85176c4301d28652dc46d12e32a780824b8a6dc31a709",
+  "created_at": "2026-10-27T17:45:14.071470+00:00",
+  "provenance": {
+    "audio_listened": true,
+    "evidence_path": "listening-evidence.json",
+    "evidence_sha256": "988277c269aa2413d6db7061da92c4f8b973c715f9199b4f4f586a9496471161",
+    "independent_reference": true,
+    "method": "direct waveform-input LLM listening review; blind to learned structure",
+    "model": "gemini-2.5-pro"
+  },
+  "schema": "hearthis.structure-correction/v1",
+  "sections": [
+    {
+      "confidence": 0.8,
+      "end_seconds": 15.35,
+      "label": "vocal_section",
+      "notes": "The piece begins with a spoken male voice in Lithuanian over a driving electronic beat. A synthetic string or pad motif plays a repetitive, urgent melody. The beat is characterized by a steady kick drum and hi-hat pattern, with a prominent snare on the off-beats. The texture is building.",
+      "start_seconds": 0
+    },
+    {
+      "confidence": 0.9,
+      "end_seconds": 47.92,
+      "label": "vocal_section",
+      "notes": "A female voice begins speaking, listing names in Lithuanian. The underlying electronic track continues with the same driving beat and melodic synth motif. The vocal delivery is clear and rhythmic, almost like a chant. The energy remains high and constant.",
+      "start_seconds": 15.35
+    },
+    {
+      "confidence": 0.85,
+      "end_seconds": 125.13,
+      "label": "vocal_section",
+      "notes": "The female voice continues listing names. The synth pads become more prominent and harmonically richer, creating a denser, more layered soundscape. A subtle shift in the synth melody or harmony around the midpoint adds to the feeling of progression while the core rhythm stays locked in. The intensity gradually increases.",
+      "start_seconds": 47.92
+    },
+    {
+      "confidence": 0.7,
+      "end_seconds": 169.19,
+      "label": "instrumental_section",
+      "notes": "The vocals cease, but the instrumental track continues at a high energy level. The synth melody becomes more complex and virtuosic, with fast-paced arpeggios and flourishing lines. The overall texture is at its thickest and most intense point, creating a climactic feel. The beat remains powerful and driving. A male spoken word phrase appears briefly towards the end of this section.",
+      "start_seconds": 125.13
+    },
+    {
+      "confidence": 0.8,
+      "end_seconds": 178.416326531,
+      "label": "outro",
+      "notes": "The main beat and melodic elements abruptly drop out, leaving only the echo and reverberation of the final spoken words. A decaying echo effect with a stuttering, granular quality fades out, bringing the track to a close. The sound dissipates into silence.",
+      "start_seconds": 169.19
+    }
+  ]
+}

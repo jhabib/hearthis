@@ -9,6 +9,7 @@ from typing import Any
 import numpy as np
 
 from .ingest import sha256_file
+from .validation import _contiguous
 
 
 PASSAGE_SCHEMA = "hearthis.passages/v1"
@@ -62,20 +63,30 @@ def build_passages(
 ) -> Path:
     if beats_per_passage <= 0:
         raise ValueError("beats_per_passage must be positive")
-    if minimum_seconds <= 0:
+    if not np.isfinite(minimum_seconds) or minimum_seconds <= 0:
         raise ValueError("minimum_seconds must be positive")
     structure_manifest = structure_manifest.expanduser().resolve()
     output_path = output_path.expanduser().resolve()
     structure = json.loads(structure_manifest.read_text(encoding="utf-8"))
     sample_rate = int(structure["canonical_wave"]["sample_rate_hz"])
     frame_count = int(structure["canonical_wave"]["frame_count"])
+    duration = frame_count / sample_rate
+    if not _contiguous(structure["sections"], duration):
+        raise ValueError("structure sections must form a finite, positive, complete and contiguous timeline")
     beats = np.asarray(structure["beats_seconds"], dtype=float)
+    if (beats.ndim != 1 or not np.isfinite(beats).all()
+            or (beats.size and (np.any(np.diff(beats) <= 0) or beats[0] < 0 or beats[-1] > duration))):
+        raise ValueError("structure beats must be finite, ordered and within the recording")
     axes = _axes(spectrogram_manifests or [])
 
     aligned_stems = {}
     if separation_manifest is not None:
         separation_manifest = separation_manifest.expanduser().resolve()
         separation = json.loads(separation_manifest.read_text(encoding="utf-8"))
+        if separation["canonical_wave"]["sha256"] != structure["canonical_wave"]["sha256"]:
+            raise ValueError("separation and structure must reference the same recording")
+        if separation["reconstruction"]["within_threshold"] is not True:
+            raise ValueError("cannot build passages from failed separation")
         aligned_stems = {
             stem: {"path": record["path"], "sha256": record["sha256"]}
             for stem, record in separation["stems"].items()

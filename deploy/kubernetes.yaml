@@ -1,0 +1,218 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hearthis
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: artifacts
+  namespace: hearthis
+spec:
+  accessModes: [ReadWriteMany]
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: hearthis
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: database
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database
+  namespace: hearthis
+spec:
+  serviceName: database
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: database
+          image: postgres:16-alpine
+          env:
+            - name: POSTGRES_DB
+              value: hearthis
+            - name: POSTGRES_USER
+              value: hearthis
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: runtime
+                  key: database-password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: database
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            exec:
+              command: [pg_isready, -U, hearthis, -d, hearthis]
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+  volumeClaimTemplates:
+    - metadata:
+        name: database
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 10Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: settings
+  namespace: hearthis
+data:
+  HEARTHIS_INPUT_ROOTS: /data
+  HEARTHIS_JOB_ROOT: /data/jobs
+  HEARTHIS_DEVICE: cpu
+  HEARTHIS_LEASE_SECONDS: "120"
+  HEARTHIS_JOB_TIMEOUT_SECONDS: "7200"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: hearthis
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: api
+          image: hearthis:local
+          imagePullPolicy: IfNotPresent
+          command: [python, -m, hearthis.service, api]
+          envFrom:
+            - configMapRef:
+                name: settings
+            - secretRef:
+                name: runtime-env
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: artifacts
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+      volumes:
+        - name: artifacts
+          persistentVolumeClaim:
+            claimName: artifacts
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: hearthis
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      terminationGracePeriodSeconds: 20
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: worker
+          image: hearthis:local
+          imagePullPolicy: IfNotPresent
+          command: [python, -m, hearthis.service, worker]
+          livenessProbe:
+            exec:
+              command: [python, -c, "import pathlib,time; assert time.time()-pathlib.Path('/tmp/hearthis-worker-health').stat().st_mtime < 30"]
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          envFrom:
+            - configMapRef:
+                name: settings
+            - secretRef:
+                name: runtime-env
+          volumeMounts:
+            - name: artifacts
+              mountPath: /data
+          resources:
+            requests:
+              cpu: "1"
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+      volumes:
+        - name: artifacts
+          persistentVolumeClaim:
+            claimName: artifacts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: hearthis
+spec:
+  selector:
+    app: api
+  ports:
+    - port: 8080
+      targetPort: 8080

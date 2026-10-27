@@ -1,0 +1,131 @@
+{
+  "canonical_wave_sha256": "ceaca0c041791708660210d5c0ba303cfc91d4051e24e51d40deebea704d89fe",
+  "endpoint": "meta-ape/ape.model.raw",
+  "execution": "live_provider",
+  "input_audio": {
+    "channels": 1,
+    "duration_seconds": 178.41632653061225,
+    "path": "../../artifacts/audio/fma-116320/listening-gemini/input.wav",
+    "sample_rate_hz": 16000,
+    "sha256": "27ad90efda62b636092229d3d6eef4f67ddc6551a5bdfcddae65c57c32900dda"
+  },
+  "method": "direct waveform-input LLM listening review; blind to learned structure",
+  "model": "gemini-2.5-pro",
+  "prompt": "Listen to the supplied complete music recording (178.416326531 seconds). You are an AI music reviewer. Analyze the audio directly, without claiming human authorship. Return ONLY a JSON object with sections, an array of contiguous positive intervals covering exactly 0 through the recording duration. Each section must contain start_seconds, end_seconds, label, confidence in [0,1], and notes describing audible evidence and uncertainty. Use broad instrumental or vocal_section labels when a functional verse/chorus/solo label cannot be supported by listening. Do not invent lyrics. Optionally add descriptor_modes to a section, an array of {weight, descriptors: {arousal, intimacy, tension}, confidence}. Each number must be in [0,1], mode weights must sum to 1, arousal means perceived activation, intimacy means perceived closeness, and tension means perceived unresolved musical pressure. These are subjective AI estimates, not measured listener reports. Also return audio_observations, a nonempty string describing audible instruments, voice, temporal changes and limitations. If you cannot access or analyze the audio, return an error object and no sections. No draft annotations or classifier outputs have been supplied.",
+  "provenance": "LLM listening judgment; not a human or calibrated population observation",
+  "provider_response_id": "GuPgapu3LJmbpucPjJaRwQQ",
+  "request_sha256": "ef876e5061325ed7b25feb5bc79d97775efc70255666e70843c5445fdc70d303",
+  "requested_model": "gemini-2.5-pro",
+  "review": {
+    "audio_observations": "The audio is a high-energy electronic track featuring a driving, four-on-the-floor beat with prominent kick, snare, and hi-hats. The primary instrumentation consists of layered synthesizers, including synth pads that provide harmonic texture and a lead synth playing an urgent, repetitive melodic motif that evolves throughout the piece. The track is built around spoken word vocals, primarily a female voice reciting a long list of names in Lithuanian, and a male voice that appears at the beginning and end. The structure is linear, building in intensity by adding and developing synth layers over a constant rhythmic foundation, climaxing in an instrumental section before an abrupt, echo-laden outro. The production quality is clear, with a noticeable stereo field and heavy use of reverb and delay, especially on the final vocal phrase. The analysis is based on the audible characteristics of the mix; individual instrument separation is limited by the nature of the recording.",
+    "sections": [
+      {
+        "confidence": 0.8,
+        "descriptor_modes": [
+          {
+            "confidence": 0.8,
+            "descriptors": {
+              "arousal": 0.7,
+              "intimacy": 0.2,
+              "tension": 0.6
+            },
+            "weight": 1
+          }
+        ],
+        "end_seconds": 15.35,
+        "label": "vocal_section",
+        "notes": "The piece begins with a spoken male voice in Lithuanian over a driving electronic beat. A synthetic string or pad motif plays a repetitive, urgent melody. The beat is characterized by a steady kick drum and hi-hat pattern, with a prominent snare on the off-beats. The texture is building.",
+        "start_seconds": 0
+      },
+      {
+        "confidence": 0.9,
+        "descriptor_modes": [
+          {
+            "confidence": 0.85,
+            "descriptors": {
+              "arousal": 0.75,
+              "intimacy": 0.2,
+              "tension": 0.65
+            },
+            "weight": 1
+          }
+        ],
+        "end_seconds": 47.92,
+        "label": "vocal_section",
+        "notes": "A female voice begins speaking, listing names in Lithuanian. The underlying electronic track continues with the same driving beat and melodic synth motif. The vocal delivery is clear and rhythmic, almost like a chant. The energy remains high and constant.",
+        "start_seconds": 15.35
+      },
+      {
+        "confidence": 0.85,
+        "descriptor_modes": [
+          {
+            "confidence": 0.8,
+            "descriptors": {
+              "arousal": 0.8,
+              "intimacy": 0.15,
+              "tension": 0.75
+            },
+            "weight": 1
+          }
+        ],
+        "end_seconds": 125.13,
+        "label": "vocal_section",
+        "notes": "The female voice continues listing names. The synth pads become more prominent and harmonically richer, creating a denser, more layered soundscape. A subtle shift in the synth melody or harmony around the midpoint adds to the feeling of progression while the core rhythm stays locked in. The intensity gradually increases.",
+        "start_seconds": 47.92
+      },
+      {
+        "confidence": 0.7,
+        "descriptor_modes": [
+          {
+            "confidence": 0.75,
+            "descriptors": {
+              "arousal": 0.9,
+              "intimacy": 0.1,
+              "tension": 0.85
+            },
+            "weight": 1
+          }
+        ],
+        "end_seconds": 169.19,
+        "label": "instrumental_section",
+        "notes": "The vocals cease, but the instrumental track continues at a high energy level. The synth melody becomes more complex and virtuosic, with fast-paced arpeggios and flourishing lines. The overall texture is at its thickest and most intense point, creating a climactic feel. The beat remains powerful and driving. A male spoken word phrase appears briefly towards the end of this section.",
+        "start_seconds": 125.13
+      },
+      {
+        "confidence": 0.8,
+        "descriptor_modes": [
+          {
+            "confidence": 0.8,
+            "descriptors": {
+              "arousal": 0.2,
+              "intimacy": 0.3,
+              "tension": 0.1
+            },
+            "weight": 1
+          }
+        ],
+        "end_seconds": 178.416326531,
+        "label": "outro",
+        "notes": "The main beat and melodic elements abruptly drop out, leaving only the echo and reverberation of the final spoken words. A decaying echo effect with a stuttering, granular quality fades out, bringing the track to a close. The sound dissipates into silence.",
+        "start_seconds": 169.19
+      }
+    ]
+  },
+  "usage": {
+    "cache_read_input_tokens": null,
+    "completion_tokens": 1303,
+    "completion_tokens_details": {
+      "reasoning_tokens": 113,
+      "text_tokens": 1190
+    },
+    "prompt_tokens": 4717,
+    "prompt_tokens_details": {
+      "audio_tokens": 4475,
+      "cached_tokens": null,
+      "image_tokens": null,
+      "text_tokens": 242,
+      "video_tokens": null
+    },
+    "total_tokens": 6020
+  }
+}

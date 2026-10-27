@@ -153,7 +153,8 @@ def analyze_structure(
     beats = np.asarray(result["beats_seconds"], dtype=float)
     downbeats = np.asarray(result["downbeats_seconds"], dtype=float)
     for name, values in (("beats", beats), ("downbeats", downbeats)):
-        if values.size and (np.any(np.diff(values) <= 0) or values[0] < 0 or values[-1] > duration):
+        if (values.ndim != 1 or not np.isfinite(values).all()
+                or (values.size and (np.any(np.diff(values) <= 0) or values[0] < 0 or values[-1] > duration))):
             raise RuntimeError(f"invalid {name} timeline")
 
     axes = _spectrogram_axes(spectrogram_manifests or [])
@@ -162,7 +163,8 @@ def analyze_structure(
     for section in sections:
         start = float(section["start_seconds"])
         end = float(section["end_seconds"])
-        if abs(start - previous_end) > 1e-6 or end <= start or end > duration + 1e-6:
+        if (not math.isfinite(start) or not math.isfinite(end) or start < 0
+                or abs(start - previous_end) > 1e-6 or end <= start or end > duration + 1e-6):
             raise RuntimeError("sections must form a contiguous, positive timeline")
         section["start_sample"] = round(start * sample_rate)
         section["end_sample"] = min(frame_count, round(end * sample_rate))

@@ -1,0 +1,66 @@
+{
+  "annotation_source": "llm",
+  "annotator": "audio-llm-reviewer",
+  "base_manifest_sha256": "486046778701e5aa0fb380e2848f293051a6ff4c86492993617679c057ab0915",
+  "created_at": "2026-10-27T18:18:27.777034+00:00",
+  "provenance": {
+    "audio_listened": true,
+    "evidence_path": "listening-evidence.json",
+    "evidence_sha256": "a6696fc4f5ad8db8257046880774e54696c3242b0bf83dc0b0377f1fe4697fa6",
+    "independent_reference": true,
+    "method": "direct waveform-input LLM listening review; blind to learned structure",
+    "model": "gemini-2.5-pro"
+  },
+  "schema": "hearthis.structure-correction/v1",
+  "sections": [
+    {
+      "confidence": 0.85,
+      "end_seconds": 21.0,
+      "label": "introduction",
+      "notes": "The piece begins with a dramatic, chaotic, and densely layered orchestral sound. Low strings or brass establish a frantic, repeating motif, while high-pitched, dissonant string textures swirl above. There's a sense of urgency and immense scale, almost like a film score for an epic, frantic scene. The texture is thick and complex from the very start.",
+      "start_seconds": 0
+    },
+    {
+      "confidence": 0.9,
+      "end_seconds": 47.96,
+      "label": "instrumental_section",
+      "notes": "A new thematic section begins, characterized by a more defined, though still agitated, rhythmic pulse. A descending melodic fragment in the strings is repeated and developed. The low-end ostinato continues, providing a powerful, driving foundation. The overall feeling is one of pursuit or intense struggle. The orchestration remains dense, with brass and string layers interacting.",
+      "start_seconds": 21.0
+    },
+    {
+      "confidence": 0.9,
+      "end_seconds": 102.26,
+      "label": "instrumental_section",
+      "notes": "The music transitions into a new passage where a powerful, driving rhythm is established by insistent string motifs and brass hits. Melodic fragments are passed between different sections of the orchestra. A recurring, descending 3-note figure becomes a key element. The intensity builds and subsides in waves, creating a dynamic and restless atmosphere. A prominent brass section enters around 1:21, adding to the heroic yet tense quality.",
+      "start_seconds": 47.96
+    },
+    {
+      "confidence": 0.85,
+      "end_seconds": 120.4,
+      "label": "instrumental_section",
+      "notes": "This section features a shift in texture. The focus moves to a more lyrical, but still somewhat anxious, string melody over a sustained harmonic bed. The frantic energy of the previous sections is temporarily replaced by a sense of questioning or anticipation. The orchestration thins out slightly, allowing the melodic lines to be heard more clearly before building again towards the end of the phrase.",
+      "start_seconds": 102.26
+    },
+    {
+      "confidence": 0.9,
+      "end_seconds": 161.4,
+      "label": "instrumental_section",
+      "notes": "The frantic energy returns with a vengeance. Rapid-fire string passages, powerful brass stabs, and a relentless rhythmic drive characterize this section. It feels like a recapitulation or development of the earlier agitated themes, but with even greater intensity. The music is highly cinematic and propulsive, suggesting a climactic action sequence. The complexity and layering of the orchestra are at a peak here.",
+      "start_seconds": 120.4
+    },
+    {
+      "confidence": 0.9,
+      "end_seconds": 204.41,
+      "label": "instrumental_section",
+      "notes": "The intensity continues, with motifs being passed between different instrumental groups. A prominent theme is carried by the brass, while the strings provide a whirlwind of fast-moving counter-melodies and rhythmic figures. The harmonic language is dissonant and full of tension. The piece feels like it's constantly building towards a resolution that never quite arrives, maintaining a high level of suspense.",
+      "start_seconds": 161.4
+    },
+    {
+      "confidence": 0.8,
+      "end_seconds": 240.065306122449,
+      "label": "outro",
+      "notes": "The music begins to deconstruct. The tempo seems to slow, and the dense orchestration thins out. Fragments of earlier themes are heard, but they sound more isolated and disjointed. The piece winds down with sustained, unresolved string chords and a final, questioning melodic fragment, ending on a note of ambiguity and suspense rather than a definitive conclusion.",
+      "start_seconds": 204.41
+    }
+  ]
+}

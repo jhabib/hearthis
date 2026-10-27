@@ -4,6 +4,8 @@ import wave
 from pathlib import Path
 
 import numpy as np
+import pytest
+from scipy.io import wavfile
 
 from hearthis.audio.allin1_compat import logarithmic_filterbank, stem_spectrogram
 
@@ -28,3 +30,15 @@ def test_spectrogram_has_expected_frames_and_bands(tmp_path: Path) -> None:
     assert spectrogram.shape == (100, 81)
     assert np.isfinite(spectrogram).all()
     assert spectrogram.min() >= 0
+
+
+@pytest.mark.parametrize("dtype,scale", [(np.int16, 16000), (np.int32, 1000000000), (np.float32, 0.5)])
+def test_identical_mono_and_stereo_have_identical_features(tmp_path: Path, dtype, scale) -> None:
+    times = np.arange(4410) / 44_100
+    mono = (np.sin(2 * np.pi * 440 * times) * scale).astype(dtype)
+    wavfile.write(tmp_path / "mono.wav", 44_100, mono)
+    wavfile.write(tmp_path / "stereo.wav", 44_100, np.column_stack([mono, mono]))
+    np.testing.assert_allclose(
+        stem_spectrogram(tmp_path / "mono.wav"),
+        stem_spectrogram(tmp_path / "stereo.wav"), rtol=0, atol=1e-6,
+    )
